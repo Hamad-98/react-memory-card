@@ -17,6 +17,10 @@ export default function Board(props) {
     { name: "Whale", src: IMAGES.whaleIcon, key: uuidv4() },
   ]);
 
+  const shuffleArray = () => {
+    setCards((prevState) => prevState.sort(() => Math.random() - 0.5));
+  };
+
   return (
     <div className="gameBoardContainer">
       {cards.map((obj) => (
@@ -26,6 +30,7 @@ export default function Board(props) {
           src={obj.src}
           key={obj.key}
           raiseGuess={props.raiseGuess}
+          shuffle={shuffleArray}
         />
       ))}
     </div>

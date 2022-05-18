@@ -16,6 +16,12 @@ function App() {
     setCurrentScore(0);
   };
 
+  const newHighScore = (score) => {
+    if (score > highScore) {
+      setHighScore(score);
+    }
+  };
+
   const raiseGuess = (obj) => {
     if (currentguessed.indexOf(obj) === -1) {
       setCurrentguessed((prevState) => prevState.concat(obj));
@@ -23,12 +29,14 @@ function App() {
     } else {
       resetScore();
       resetCurrentGuessed();
+      newHighScore(currentScore);
     }
   };
 
   const resetCurrentGuessed = () => {
     setCurrentguessed([]);
   };
+
   return (
     <React.Fragment>
       <Header />
