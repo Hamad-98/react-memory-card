@@ -1,38 +1,38 @@
 import React, { useState } from "react";
 import "./Board.css";
 import Cards from "./Cards";
-import IMAGES from "../../assets/Image";
-import { v4 as uuidv4 } from "uuid";
+import cardData from "./cardData";
 
 export default function Board(props) {
-  const [cards, setCards] = useState([
-    { name: "Cat", src: IMAGES.catIcon, key: uuidv4() },
-    { name: "Chicken", src: IMAGES.chickenIcon, key: uuidv4() },
-    { name: "Crocodile", src: IMAGES.crocodileIcon, key: uuidv4() },
-    { name: "Hamster", src: IMAGES.hamsterIcon, key: uuidv4() },
-    { name: "KillerWhale", src: IMAGES.killerWhaleIcon, key: uuidv4() },
-    { name: "Lion", src: IMAGES.lionIcon, key: uuidv4() },
-    { name: "Octopus", src: IMAGES.octopusIcon, key: uuidv4() },
-    { name: "Toucan", src: IMAGES.toucanIcon, key: uuidv4() },
-    { name: "Whale", src: IMAGES.whaleIcon, key: uuidv4() },
-  ]);
+  const [cards, setCards] = useState(cardData);
 
   const shuffleArray = () => {
     setCards((prevState) => prevState.sort(() => Math.random() - 0.5));
   };
 
-  return (
-    <div className="gameBoardContainer">
-      {cards.map((obj) => (
-        <Cards
-          obj={obj}
-          name={obj.name}
-          src={obj.src}
-          key={obj.key}
-          raiseGuess={props.raiseGuess}
-          shuffle={shuffleArray}
-        />
-      ))}
-    </div>
-  );
+  const raiseGuess = (obj) => {
+    if (props.currentguessed.indexOf(obj) === -1) {
+      props.handleCurrentGuessChange(obj);
+      props.increaseScore();
+    } else {
+      props.resetScore();
+      props.resetCurrentGuessed();
+      props.newHighScore(props.currentScore);
+    }
+    shuffleArray();
+  };
+
+  const createCards = () => {
+    return cards.map((obj) => (
+      <Cards
+        obj={obj}
+        name={obj.name}
+        src={obj.src}
+        key={obj.key}
+        raiseGuess={raiseGuess}
+      />
+    ));
+  };
+
+  return <div className="gameBoardContainer">{createCards()}</div>;
 }
