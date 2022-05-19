@@ -21,27 +21,27 @@ function App() {
       setHighScore(score);
     }
   };
-
-  const raiseGuess = (obj) => {
-    if (currentguessed.indexOf(obj) === -1) {
-      setCurrentguessed((prevState) => prevState.concat(obj));
-      increaseScore();
-    } else {
-      resetScore();
-      resetCurrentGuessed();
-      newHighScore(currentScore);
-    }
-  };
-
   const resetCurrentGuessed = () => {
     setCurrentguessed([]);
+  };
+
+  const handleCurrentGuessChange = (obj) => {
+    setCurrentguessed((prevState) => prevState.concat(obj));
   };
 
   return (
     <React.Fragment>
       <Header />
       <Score currentScore={currentScore} highScore={highScore} />
-      <Board raiseGuess={raiseGuess} />
+      <Board
+        currentScore={currentScore}
+        increaseScore={increaseScore}
+        resetScore={resetScore}
+        newHighScore={newHighScore}
+        resetCurrentGuessed={resetCurrentGuessed}
+        currentguessed={currentguessed}
+        handleCurrentGuessChange={handleCurrentGuessChange}
+      />
     </React.Fragment>
   );
 }
